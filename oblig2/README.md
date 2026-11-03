@@ -1,69 +1,162 @@
-# Code — Assignment 2
+# Assignment 2 — Voltage Dividers and Analog Measurements
 
-Python scripts and Arduino sketches used for the voltage-divider assignment in **IN1080: Mechatronics**.
+Exploring Ohm’s law, voltage dividers and electrical loading through Python calculations and practical Arduino experiments.
 
-## Contents
+Completed for **IN1080: Mechatronics**, University of Oslo.
 
-| File type | Purpose |
+**Author:** Frida Berge (`fridatbe`)  
+**Report date:** February 22, 2023
+
+## Overview
+
+This assignment combines theoretical circuit analysis with breadboard experiments:
+
+- Plotting current as a function of voltage.
+- Calculating and plotting voltage-divider outputs.
+- Comparing calculated and measured voltages.
+- Reading a variable voltage through Arduino’s analog input.
+- Observing how an external load affects a high-resistance voltage divider.
+
+## Report
+
+My answers to the tasks—including calculations, measurements, plots and reflections—are documented in [oblig2_fridatbe.pdf](./oblig2_fridatbe.pdf).
+
+For the assignment requirements, see [taskdescription.md](./taskdescription.md).
+
+## Folder Structure
+
+```text
+oblig2/
+├── README.md
+├── taskdescription.md
+├── oblig2_fridatbe.pdf
+├── code/
+│   ├── README.md
+│   └── Python scripts and Arduino sketches
+└── media/
+    ├── README.md
+    └── Pictures, screenshots and illustrations
+```
+
+| Location | Contents |
 | --- | --- |
-| `.py` | Calculations and plots for the resistor and voltage-divider tasks |
-| `.ino` | Arduino analog-input readings and serial output for the practical experiments |
+| [Report](./oblig2_fridatbe.pdf) | My written answers, calculations, measurements and reflections |
+| [Task description](./taskdescription.md) | Assignment requirements |
+| [code/](./code/) | Python plotting scripts and Arduino sketches |
+| [media/](./media/) | Pictures, screenshots and illustrations supporting the assignment |
 
-The original submission naming requirements are listed in [taskdescription.md](../taskdescription.md).
+## Tools and Components
 
-## Python Scripts
+### Software
 
-The Python tasks investigate:
+- Python with NumPy and Matplotlib.
+- Arduino IDE.
+- Arduino Serial Monitor or Serial Plotter.
 
-- Current through a 100 Ω resistor as a function of applied voltage.
-- Voltage-divider output as a function of the lower resistance.
+### Hardware
 
-### Dependencies
+- Arduino with a 5 V supply and analog input A0.
+- Breadboard and jumper wires.
+- Multimeter.
+- Resistors.
+- Potentiometer.
+- LED.
+
+The final experiment specifies two 10 MΩ resistors.
+
+## Experiments and Recorded Results
+
+### 1. Current through a resistor
+
+A Python script calculates and plots current through a 100 Ω resistor as the applied voltage increases, using Ohm’s law.
+
+The implementation reproduced in the report uses `np.arange(1, 10, 0.1)`, so the calculated voltage range starts at 1 V and stops just below 10 V.
+
+### 2. Calculating a voltage divider
+
+For a 10 V supply, a 150 Ω upper resistor and a desired output of 2.5 V across the lower resistor, the calculated lower resistance is **50 Ω**.
+
+The report includes the voltage-divider calculation.
+
+### 3. Variable-resistance simulation
+
+A second Python script plots the voltage across the lower resistor as its resistance varies from 1 Ω to just below 1,000 Ω.
+
+The supply remains at 10 V and the upper resistor at 150 Ω.
+
+### 4. Physical voltage divider
+
+The assignment specified a 4.7 kΩ lower resistor and a 10 kΩ upper resistor. The report records substituting a **16 kΩ resistor** for the upper resistor.
+
+| Quantity | Recorded value |
+| --- | ---: |
+| Supply voltage | 5 V |
+| Lower resistor | 4.7 kΩ |
+| Upper resistor, reported substitution | 16 kΩ |
+| Calculated output, rounded | 1.1 V |
+| Measured output | 1.6 V |
+
+The report discusses possible explanations for the difference.
+
+**Interpretation note:** the measured 1.6 V is close to the theoretical output for the originally specified 10 kΩ upper resistor. The report does not establish the cause of the discrepancy; checking the installed resistance values and wiring would help resolve it.
+
+### 5. Potentiometer and LED
+
+A voltage divider with a potentiometer is connected to Arduino input A0, with an LED connected across the potentiometer.
+
+The report records:
+
+- Analog readings varying from **0 to 536**.
+- The LED switching on and off as the potentiometer was adjusted.
+
+These are raw analog readings, not voltages in volts.
+
+### 6. Loading a high-resistance divider
+
+The final task investigates a divider with two 10 MΩ resistors.
+
+The report records a substantial reduction in the analog readings, reaching zero, when a load was introduced through finger contact between the output and ground.
+
+This is a qualitative observation rather than a calibrated measurement of body resistance or loading.
+
+## Running the Code
+
+### Python plots
+
+Install the dependencies:
 
 ```bash
 python -m pip install numpy matplotlib
 ```
 
-### Running
+Run the relevant `.py` files from [code/](./code/).
 
-From this folder, run the relevant script:
+The code reproduced in the report saves plots as `opg1.png` and `opg2.png`. Relative output paths are resolved from the working directory; generated plots are not automatically saved to `media/`.
 
-```bash
-python <filename>.py
-```
+### Arduino experiments
 
-Replace `<filename>` with the script’s actual name.
-
-The code reproduced in the report saves plots as `opg1.png` and `opg2.png`. Unless the output path has been changed, these files are written to the current working directory—not automatically to `../media/`.
-
-## Arduino Sketches
-
-The Arduino experiments read the divider output through **A0** and send the readings to the computer through the serial connection.
-
-### Running
-
-1. Build the circuit described in the relevant task.
-2. Open the `.ino` file in Arduino IDE.
-3. Select the board and serial port.
-4. Compile and upload the sketch.
+1. Assemble the circuit for the relevant task.
+2. Open the appropriate `.ino` file from [code/](./code/) in Arduino IDE.
+3. Select the connected board and port.
+4. Upload the sketch.
 5. Open Serial Monitor or Serial Plotter.
-6. Use the baud rate specified by `Serial.begin()` in the sketch.
+6. Match the serial baud rate to the value configured in the sketch.
 
-Arduino IDE expects a sketch folder to have the same name as its main `.ino` file. If prompted, allow the IDE to create or move the sketch into the matching folder.
+Task 5 requests five readings per second. Check the sketch for its actual sampling delay and serial configuration.
 
-### Reading the Output
+See [code/README.md](./code/README.md) for additional guidance.
 
-`analogRead()` returns a raw ADC reading, not a voltage directly. Its range and voltage interpretation depend on the board’s ADC resolution and reference voltage.
+## Scope and Limitations
 
-Task 5 requires five readings per second. Check the implementation’s delay and execution time when comparing it with that requirement.
-
-## Related Documentation
-
-- [Assignment overview](../README.md)
-- [Task description](../taskdescription.md)
-- [My answers and reflections](../oblig2_fridatbe.pdf)
-- [Supporting media](../media/)
+- Results are taken from the original report and have not been independently reproduced.
+- The displayed Task 1 figure does not match the accompanying code or requested axes.
+- The resistor substitution and measured voltage in Task 4 remain inconsistent.
+- Tasks 5 and 6 provide qualitative observations rather than repeated measurements with uncertainty estimates.
+- The report contains Serial Monitor screenshots rather than the requested plotted screenshots.
+- The supporting files preserve the original coursework; this README distinguishes the requirements from the documented results.
 
 ## Attribution
 
-These files contain my code submitted for the assignment. The tasks and circuit requirements were provided by the course.
+The circuit exercises and experimental requirements were supplied by the course.
+
+My submission contains the Python plotting code, Arduino code, voltage-divider calculations, recorded measurements and reflections from the practical experiments.
