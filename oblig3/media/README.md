@@ -12,8 +12,6 @@ The report includes:
 - A circuit diagram for the Thévenin-equivalent calculation.
 - A WaveForms Network Analyzer screenshot showing the filter’s magnitude and phase response.
 
-The original task description also includes an Analog Discovery 2 connection illustration.
-
 ## Attribution
 
 Course-supplied circuit diagrams and connection illustrations are included for context and are not presented as my original designs.
