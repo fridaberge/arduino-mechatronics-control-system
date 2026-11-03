@@ -1,40 +1,42 @@
 # Media — Assignment 3
 
-Supporting visual material for **IN1080: Mechatronics**, Assignment 3.
+Pictures, screenshots and illustrations supporting **IN1080: Mechatronics**, Assignment 3.
 
-## RC Low-Pass Filter Result
+## Assignment Context
 
-The screenshot below shows the measured magnitude and phase response of an RC low-pass filter built using a **1 kΩ resistor** and a **1 µF capacitor**.
+The visual material supports the circuit-analysis tasks and the practical RC low-pass filter experiment.
 
-Measurements were made using **Analog Discovery 2** and the **WaveForms Network Analyzer**.
+The report includes:
 
-![Measured magnitude and phase response of the RC low-pass filter](./screen.png)
+- Circuit diagrams for the Kirchhoff’s-law calculations.
+- A circuit diagram for the Thévenin-equivalent calculation.
+- A WaveForms Network Analyzer screenshot showing the filter’s magnitude and phase response.
 
-*The upper plot shows magnitude, while the lower plot shows phase. Channel 2 represents the filter output.*
+The original task description also includes an Analog Discovery 2 connection illustration.
 
-### Results
+## Low-Pass Filter Measurement
 
-At the displayed measurement marker:
+The practical experiment uses a 1 kΩ resistor and a 1 µF capacitor, with the output measured across the capacitor.
 
-| Quantity | Measured value |
+The report records:
+
+| Quantity | Value |
 | --- | ---: |
-| Frequency | 140.13 Hz |
-| Output magnitude | −3.07679 dB |
-| Output phase | −42.64099° |
+| Theoretical cutoff frequency | 159.15 Hz |
+| Measured frequency near −3 dB | 140.13 Hz |
+| Measured phase-lag magnitude | 42.64° |
 
-The theoretical cutoff frequency is **159.15 Hz**, with an expected phase lag of **45°** at cutoff.
+Read the measurement screenshot alongside the report for the calculations and discussion. Marker placement affects how the frequency and phase values should be interpreted.
 
-The measured response demonstrates low-pass behavior: higher-frequency signals are increasingly attenuated, and the output lags the input.
+## Attribution
 
-The report discusses the difference between the theoretical and measured values, including the effect of positioning the marker near, rather than exactly at, −3 dB.
+Course-supplied circuit diagrams and connection illustrations are included for context and are not presented as my original designs.
+
+The experimental measurement screenshot documents the practical work reported in my submission.
 
 ## Related Documentation
 
 - [Assignment overview](../README.md)
-- [My answers, calculations and reflections](../oblig3_fridatbe.pdf)
 - [Original task description](../taskdescription.pdf)
+- [My answers, measurements and reflections](../oblig3_fridatbe.pdf)
 - [Supporting code](../code/)
-
-## Attribution
-
-The measurement screenshot documents the practical experiment presented in my report. Any course-supplied illustrations remain attributable to the original assignment.
