@@ -14,20 +14,6 @@ The report includes:
 
 The original task description also includes an Analog Discovery 2 connection illustration.
 
-## Low-Pass Filter Measurement
-
-The practical experiment uses a 1 kΩ resistor and a 1 µF capacitor, with the output measured across the capacitor.
-
-The report records:
-
-| Quantity | Value |
-| --- | ---: |
-| Theoretical cutoff frequency | 159.15 Hz |
-| Measured frequency near −3 dB | 140.13 Hz |
-| Measured phase-lag magnitude | 42.64° |
-
-Read the measurement screenshot alongside the report for the calculations and discussion. Marker placement affects how the frequency and phase values should be interpreted.
-
 ## Attribution
 
 Course-supplied circuit diagrams and connection illustrations are included for context and are not presented as my original designs.
