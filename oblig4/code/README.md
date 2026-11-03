@@ -1,80 +1,135 @@
 # Code — Assignment 4
 
-Source code supporting **IN1080: Mechatronics**, Assignment 4: LED driver analysis and Arduino traffic-light control.
+Source code and circuit-design files for **IN1080: Mechatronics**, Assignment 4.
 
-## Python — LED Analysis
+The Python scripts answer Tasks 1 and 5 of the LED-driver exercise. The Arduino sketch solves the traffic-light task.
 
-The report includes Python code for:
+## Files
 
-- Plotting LED current as a function of voltage.
-- Calculating current at 1.14 V for ideality factors of 1.6 and 1.3.
-- Iteratively estimating the current with a 10 V supply and a 9 Ω series resistor.
+| File | Purpose |
+| --- | --- |
+| [oblig4_1.py](./oblig4_1.py) | Task 1: LED current–voltage plot and current calculation |
+| [oblig4_5.py](./oblig4_5.py) | Task 5: Numerical current calculation with a series resistor |
+| [trafikklys.ino](./trafikklys.ino) | Arduino traffic-light controller |
+| [Draft1.asc](./Draft1.asc) | LTspice schematic file |
+| [Draft2.asc](./Draft2.asc) | LTspice schematic file |
 
-### Dependencies
+## Task 1 — LED Current–Voltage Analysis
 
-The plotting code shown in the report uses:
+**File:** [oblig4_1.py](./oblig4_1.py)
 
-- Python 3.
-- NumPy.
-- Matplotlib.
-- Python’s built-in `math` module.
+Plots the LED current as a function of voltage using the diode model provided in the assignment.
 
-Install the external packages with:
+The task uses an ideality factor of 1.6 and asks for:
 
-    python -m pip install numpy matplotlib
+- A voltage range from 0 to 1.4 V.
+- A displayed current range from 0 to 2 A.
+- The calculated current at a supply voltage of 1.14 V.
 
-Run the relevant Python file from this folder. Check its contents for output filenames and whether it saves or displays the plot.
+The code excerpt in the report also calculates the current for an ideality factor of 1.3, supporting Task 2.
 
 ### Reported Results
 
-| Calculation | Result |
+| Ideality factor | Calculated current at 1.14 V |
 | --- | ---: |
-| Current at 1.14 V, ideality factor 1.6 | Approximately 0.93 A |
-| Current at 1.14 V, ideality factor 1.3 | Approximately 537 A |
-| Current with 9 Ω resistor, ideality factor 1.6 | Approximately 0.984 A |
-| Current with 9 Ω resistor, ideality factor 1.3 | Approximately 1.007 A |
+| 1.6 | Approximately 0.93 A |
+| 1.3 | Approximately 537 A |
 
-These are simplified model calculations, not measured hardware currents.
+These values come from the simplified mathematical model. They are not measured currents or safe operating recommendations.
 
-## Arduino — Traffic-Light Control
+## Task 5 — Current With a Series Resistor
 
-The traffic-light exercise uses vehicle and pedestrian LEDs, a request button, a blue acknowledgement LED and a piezo sounder.
+**File:** [oblig4_5.py](./oblig4_5.py)
 
-### Required Pin Mapping
+Numerically estimates the LED current using:
 
-| Pin | Function |
-| --- | --- |
-| D2 | Request button |
-| D3 | Blue acknowledgement LED |
-| D4 | Pedestrian green LED |
-| D5 | Pedestrian red LED |
-| D10 | Piezo sounder |
-| D11 | Vehicle green LED |
-| D12 | Vehicle yellow LED |
-| D13 | Vehicle red LED |
+- A 10 V supply.
+- A 9 Ω series resistor, calculated in Task 4.
+- LED ideality factors of 1.6 and 1.3.
 
-### Assignment Requirements
+The calculation iteratively adjusts the diode voltage to satisfy the circuit’s voltage relationship.
 
-- Non-blocking timing for the light and sound sequences.
-- Interrupt-based handling of the request button.
-- Acknowledgement of a pending request using the blue LED.
-- Different audible signal intervals during idle and pedestrian crossing.
-- Three green flashing cycles before the pedestrian light returns to red.
+### Reported Results
 
-Consult the sketch to verify how these requirements are implemented.
+| Ideality factor | Calculated current |
+| --- | ---: |
+| 1.6 | Approximately 0.984 A |
+| 1.3 | Approximately 1.007 A |
 
-### Uploading the Sketch
+The results illustrate how a series resistor reduces the sensitivity of the current to changes in the LED model.
 
-1. Assemble the circuit according to the report and task description.
+## Running the Python Scripts
+
+The Python code shown in the report uses Python 3, NumPy, Matplotlib and the built-in `math` module.
+
+Install the external dependencies:
+
+```bash
+python -m pip install numpy matplotlib
+```
+
+Run the scripts from this folder:
+
+```bash
+python oblig4_1.py
+python oblig4_5.py
+```
+
+The Task 1 code shown in the report saves its plot as `opg1.png`. The calculated currents are printed to the terminal.
+
+## Traffic-Light Controller
+
+**File:** [trafikklys.ino](./trafikklys.ino)
+
+Arduino sketch for the pedestrian-crossing task. The system uses vehicle lights, pedestrian lights, a request button, a blue acknowledgement LED and a piezo sounder.
+
+### Pin Mapping
+
+| Arduino pin | Component | Function |
+| --- | --- | --- |
+| D2 | Pushbutton | Pedestrian crossing request |
+| D3 | Blue LED | Request acknowledgement |
+| D4 | Green LED | Pedestrian green |
+| D5 | Red LED | Pedestrian red |
+| D10 | Piezo sounder | Audible signal |
+| D11 | Green LED | Vehicle green |
+| D12 | Yellow LED | Vehicle yellow |
+| D13 | Red LED | Vehicle red |
+
+### Task Requirements
+
+The assignment specifies the following sequence:
+
+1. Vehicles have green and pedestrians have red while no crossing request is pending.
+2. A button press is acknowledged by the blue LED.
+3. After 2 seconds, vehicles receive yellow, followed by red 1 second later.
+4. After another 1 second, pedestrians receive green.
+5. Pedestrian green remains on for 6 seconds, then flashes for three cycles before returning to red.
+6. Once pedestrians have red, vehicles receive yellow for 1 second before returning to green.
+
+The piezo uses slower pulses during idle and faster pulses during pedestrian crossing.
+
+The assignment also requires non-blocking timing and interrupt-based button handling. See the sketch for the implementation.
+
+### Uploading
+
+1. Assemble the circuit using the report and task description.
 2. Use a 220 Ω series resistor for each LED and a 10 kΩ pull-down resistor for the button.
-3. Open the `.ino` sketch in Arduino IDE.
-4. Select **Arduino Uno** and the correct serial port.
-5. Compile and upload the sketch.
-6. Test the idle state, button acknowledgement and complete crossing sequence.
+3. Open `trafikklys.ino` in Arduino IDE.
+4. If prompted, allow Arduino IDE to place it in a folder named `trafikklys`.
+5. Select **Arduino Uno** and the appropriate serial port.
+6. Compile and upload.
+7. Test the idle state, request acknowledgement and complete crossing sequence.
 
-Arduino IDE may require the `.ino` file to be stored in a folder with the same name as the sketch.
+Disconnect power before changing the wiring.
 
-Disconnect power before modifying the circuit.
+**Important:** The 9 Ω resistor used in the Python exercise is not the LED resistor value for the Arduino circuit.
+
+## Circuit-Design Files
+
+[Draft1.asc](./Draft1.asc) and [Draft2.asc](./Draft2.asc) are LTspice schematic files. Open them in LTspice to inspect their circuit designs.
+
+Refer to the report for the documented circuit diagrams and component values.
 
 ## Related Documentation
 
