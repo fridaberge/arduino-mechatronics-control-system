@@ -4,7 +4,7 @@ Supporting visual material for **IN1080: Mechatronics**, Assignment 4.
 
 ## Traffic-Light Hardware Setup
 
-![Arduino Uno connected to a breadboard traffic-light circuit](./setup.jpg)
+![Arduino Uno connected to a breadboard traffic-light circuit](./oppsett_arduino.jpg)
 
 *Arduino Uno breadboard assembly with vehicle LEDs, pedestrian LEDs, a blue request indicator, a pushbutton and a piezo sounder.*
 
